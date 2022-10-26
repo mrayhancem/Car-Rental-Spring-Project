@@ -6,7 +6,7 @@ server:
     include-message: always
     include-stacktrace: never
     
-    
+
  #servlet:
   #context-path: /api/v0
   
@@ -16,6 +16,9 @@ spring:
    username: visionrent_user
    password: password
    driver-class-name: org.postgresql.Driver
+# main:
+#    allow-circular-references: true
+
    
  jpa:
   hibernate:
@@ -24,7 +27,13 @@ spring:
   database-platform: org.hibernate.dialect.PostgreSQL9Dialect
   properties:
    '[hibernate.format_sql]': true
- 
+   
+ servlet:
+    multipart:
+      max-file-size: 2MB
+      max-request-size: 2MB
+        
+        
    
 logging:
  file:
@@ -52,6 +61,11 @@ management:
    
   shutdown:
    enabled: true 
+
+visionrent:
+ app:
+  jwtSecret: visionRent@!23
+  jwtExpirationMS: 800000
   
 info:
  application:

@@ -1,9 +1,7 @@
 package com.visionrent.exception;
 
-import java.time.LocalDateTime;
-import java.util.LinkedHashMap;
+import java.nio.file.AccessDeniedException;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
@@ -46,6 +44,14 @@ public class VisionRentExceptionHandler extends ResponseEntityExceptionHandler{
 		return buildResponseEntity(error);
 	}
 	
+	@ExceptionHandler(ConflictException.class)
+	protected ResponseEntity<Object> handleConflictException(ConflictException ex, WebRequest request){
+		
+	
+		ApiResponseError error = new ApiResponseError(HttpStatus.CONFLICT, ex.getMessage(), request.getDescription(true));
+		return buildResponseEntity(error);
+	}
+	
 	@Override
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
@@ -55,6 +61,16 @@ public class VisionRentExceptionHandler extends ResponseEntityExceptionHandler{
 		return buildResponseEntity(error);
 	}
 	
+	@ExceptionHandler(BadRequestException.class)
+	protected ResponseEntity<Object> handleBadRequestException(BadRequestException ex, WebRequest request){
+		
+	
+		ApiResponseError error = new ApiResponseError(HttpStatus.BAD_REQUEST, ex.getMessage(), request.getDescription(true));
+		return buildResponseEntity(error);
+	}
+	
+	
+	
 	@Override
 	protected ResponseEntity<Object> handleTypeMismatch(TypeMismatchException ex, HttpHeaders headers,
 			HttpStatus status, WebRequest request) {
@@ -63,6 +79,17 @@ public class VisionRentExceptionHandler extends ResponseEntityExceptionHandler{
 		
 		return buildResponseEntity(error);
 	}
+	
+	@ExceptionHandler(AccessDeniedException.class)
+	protected ResponseEntity<Object> handleAccessDeniedException(AccessDeniedException ex, WebRequest request){
+		
+		//if user enters incorrect information/access privilege
+	
+		ApiResponseError error = new ApiResponseError(HttpStatus.FORBIDDEN, ex.getMessage(), request.getDescription(true));
+		return buildResponseEntity(error);
+	}
+	
+	
 	
 	@Override
 	protected ResponseEntity<Object> handleConversionNotSupported(ConversionNotSupportedException ex,
